@@ -1,0 +1,388 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Sopra Steria | Cybersecurity Challenge</title>
+
+    <link rel="stylesheet" href="style.css" />
+
+    <!-- Supabase -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  </head>
+
+  <body>
+    <header class="topbar">
+      <div class="brand">
+        <div class="brand-icon">S</div>
+
+        <div>
+          <h2>SOPRA STERIA</h2>
+          <span>Cybersecurity Awareness</span>
+        </div>
+      </div>
+
+      <div class="header-title">CYBERSECURITY CHALLENGE</div>
+    </header>
+
+    <div class="progress-area">
+      <div class="progress-info">
+        <span id="progressText">Welcome</span>
+        <span id="progressPercent">0%</span>
+      </div>
+
+      <div class="progress-track">
+        <div id="progressBar" class="progress-bar"></div>
+      </div>
+    </div>
+
+    <main class="container">
+      <!-- ================= LANDING ================= -->
+
+      <section id="landing" class="screen active">
+        <div class="hero">
+          <div class="eyebrow">SECURITY AWARENESS EVENT</div>
+
+          <h1>
+            THINK.<br />
+            VERIFY.<br />
+            PROTECT.
+          </h1>
+
+          <p class="hero-text">
+            How cyber-aware are you? Test your ability to recognize phishing,
+            suspicious emails, social engineering, unsafe links and other cyber
+            threats.
+          </p>
+
+          <div class="stats">
+            <div>
+              <strong>03</strong>
+              <span>Scenarios</span>
+            </div>
+
+            <div>
+              <strong>12</strong>
+              <span>Questions</span>
+            </div>
+
+            <div>
+              <strong>01</strong>
+              <span>Final Result</span>
+            </div>
+          </div>
+
+          <button id="startBtn" class="primary-btn">Start Challenge →</button>
+
+          <p class="safe-note">
+            Educational simulation · No real passwords, OTPs or corporate
+            credentials are collected.
+          </p>
+        </div>
+      </section>
+
+      <!-- ================= NAME ================= -->
+
+      <section id="nameScreen" class="screen">
+        <div class="card">
+          <div class="step">STEP 01</div>
+
+          <h1>Welcome to the challenge.</h1>
+
+          <p>Enter your name to begin the cybersecurity awareness challenge.</p>
+
+          <label for="participantName"> Participant Name </label>
+
+          <input
+            id="participantName"
+            type="text"
+            maxlength="80"
+            placeholder="Enter your name"
+            autocomplete="off"
+          />
+
+          <div id="nameError" class="error"></div>
+
+          <button id="nameContinueBtn" class="primary-btn">Continue →</button>
+        </div>
+      </section>
+
+      <!-- ================= POLICY ================= -->
+
+      <section id="policyScreen" class="screen">
+        <div class="card">
+          <div class="step">STEP 02</div>
+
+          <h1>Security policy review</h1>
+
+          <p>
+            Read the following security principles before choosing how you would
+            respond.
+          </p>
+
+          <div class="policy-grid">
+            <div class="policy-card">
+              <strong>01</strong>
+              <h3>Data & Privacy</h3>
+              <p>Protect confidential and personal information.</p>
+            </div>
+
+            <div class="policy-card">
+              <strong>02</strong>
+              <h3>Device Security</h3>
+              <p>Keep devices updated and protected.</p>
+            </div>
+
+            <div class="policy-card">
+              <strong>03</strong>
+              <h3>Third-Party Access</h3>
+              <p>Verify external access requests.</p>
+            </div>
+
+            <div class="policy-card">
+              <strong>04</strong>
+              <h3>Security Notifications</h3>
+              <p>Treat unexpected alerts carefully.</p>
+            </div>
+
+            <div class="policy-card">
+              <strong>05</strong>
+              <h3>Account Protection</h3>
+              <p>Never share passwords or MFA codes.</p>
+            </div>
+
+            <div class="policy-card">
+              <strong>06</strong>
+              <h3>Information Sharing</h3>
+              <p>Share sensitive information only through approved channels.</p>
+            </div>
+
+            <div class="policy-card">
+              <strong>07</strong>
+              <h3>Incident Reporting</h3>
+              <p>Report suspicious activity promptly.</p>
+            </div>
+          </div>
+
+          <div class="decision-box">
+            <h3>What would you do?</h3>
+
+            <p>
+              Choose whether you would accept the policy immediately or review
+              it carefully.
+            </p>
+
+            <div class="decision-buttons">
+              <button id="reviewBtn" class="secondary-btn">
+                Review Policy
+              </button>
+
+              <button id="acceptBtn" class="primary-btn">Accept All</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= REASON ================= -->
+
+      <section id="reasonScreen" class="screen">
+        <div class="card narrow">
+          <div class="step">STEP 03</div>
+
+          <div id="decisionBadge" class="decision-badge"></div>
+
+          <h1 id="reasonTitle">Why did you make this choice?</h1>
+
+          <p>
+            Explain your decision briefly. This helps us understand your
+            security mindset.
+          </p>
+
+          <textarea
+            id="reasonInput"
+            maxlength="250"
+            placeholder="Write your reason..."
+          ></textarea>
+
+          <div class="character-count"><span id="charCount">0</span>/250</div>
+
+          <div id="reasonError" class="error"></div>
+
+          <button id="reasonContinueBtn" class="primary-btn">Continue →</button>
+        </div>
+      </section>
+
+      <!-- ================= AWARENESS ================= -->
+
+      <section id="awarenessScreen" class="screen">
+        <div class="card">
+          <div class="step">SECURITY AWARENESS</div>
+
+          <h1 id="awarenessTitle">Your security decision matters.</h1>
+
+          <p id="awarenessText" class="large-text"></p>
+
+          <div class="lesson-grid">
+            <div class="lesson-card">
+              <span>01</span>
+              <h3>Think</h3>
+              <p>Pause before responding to unexpected requests.</p>
+            </div>
+
+            <div class="lesson-card">
+              <span>02</span>
+              <h3>Verify</h3>
+              <p>Check senders, domains, links and requests independently.</p>
+            </div>
+
+            <div class="lesson-card">
+              <span>03</span>
+              <h3>Protect</h3>
+              <p>Protect passwords, MFA codes and sensitive information.</p>
+            </div>
+          </div>
+
+          <div class="simulation-note">
+            This is a controlled educational simulation. No real credentials or
+            sensitive information are collected.
+          </div>
+
+          <button id="awarenessContinueBtn" class="primary-btn">
+            Begin Security Scenarios →
+          </button>
+        </div>
+      </section>
+
+      <!-- ================= SCENARIOS ================= -->
+
+      <section id="scenarioScreen" class="screen">
+        <div class="card">
+          <div id="scenarioNumber" class="step">SECURITY SCENARIO 1 / 3</div>
+
+          <div id="scenarioContent"></div>
+
+          <button id="scenarioContinueBtn" class="primary-btn">
+            Continue →
+          </button>
+        </div>
+      </section>
+
+      <!-- ================= QUIZ ================= -->
+
+      <section id="quizScreen" class="screen">
+        <div class="card">
+          <div class="quiz-top">
+            <div>
+              <div class="step">FINAL KNOWLEDGE CHECK</div>
+
+              <h1 id="questionTitle">Question 1</h1>
+            </div>
+
+            <div id="questionCounter" class="question-counter">1 / 12</div>
+          </div>
+
+          <div id="questionText" class="question-text"></div>
+
+          <div id="optionsContainer" class="options"></div>
+
+          <div id="quizError" class="error"></div>
+
+          <button id="nextQuestionBtn" class="primary-btn">
+            Next Question →
+          </button>
+        </div>
+      </section>
+
+      <!-- ================= RESULT ================= -->
+
+      <section id="resultScreen" class="screen">
+        <div class="result-card">
+          <div class="result-header">
+            <div class="step">SOPRA STERIA · CYBERSECURITY CHALLENGE</div>
+
+            <h1>Final Result</h1>
+
+            <p>
+              Well done,
+              <strong id="resultName"></strong>.
+            </p>
+          </div>
+
+          <div class="score-area">
+            <div class="score-circle">
+              <strong id="scoreNumber"> 0 </strong>
+
+              <span> / 12 </span>
+            </div>
+
+            <div>
+              <span class="small-label"> YOUR SCORE </span>
+
+              <h2 id="percentage">0%</h2>
+
+              <div id="levelBadge" class="level-badge"></div>
+            </div>
+          </div>
+
+          <div class="result-section">
+            <h3>Policy Decision</h3>
+
+            <div id="resultDecision" class="result-decision"></div>
+
+            <div class="reason-result">
+              <span> Why you chose this option </span>
+
+              <p id="resultReason"></p>
+            </div>
+          </div>
+
+          <div class="result-section">
+            <h3>Quiz Performance</h3>
+
+            <div class="performance-grid">
+              <div>
+                <span>Correct</span>
+                <strong id="correctCount"> 0 </strong>
+              </div>
+
+              <div>
+                <span>Wrong</span>
+                <strong id="wrongCount"> 0 </strong>
+              </div>
+
+              <div>
+                <span>Total</span>
+                <strong> 12 </strong>
+              </div>
+            </div>
+          </div>
+
+          <div class="result-section">
+            <h3>Topic Performance</h3>
+
+            <div id="topicPerformance" class="topic-performance"></div>
+          </div>
+
+          <div id="saveStatus" class="save-status">Saving result...</div>
+
+          <div class="footer-message">
+            <strong> THINK. VERIFY. PROTECT. </strong>
+
+            <p>
+              Cybersecurity is not only about technology. It starts with every
+              decision we make.
+            </p>
+          </div>
+
+          <button id="restartBtn" class="primary-btn">Start Again</button>
+        </div>
+      </section>
+    </main>
+
+    <footer>Sopra Steria · Cybersecurity Awareness Event</footer>
+
+    <script src="script.js"></script>
+  </body>
+</html>
