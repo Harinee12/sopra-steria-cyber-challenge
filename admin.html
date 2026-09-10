@@ -5,7 +5,7 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <title>Cybersecurity Challenge | Admin</title>
+    <title>Cybersecurity Challenge - Admin</title>
 
     <link rel="stylesheet" href="admin.css" />
 
@@ -15,26 +15,30 @@
   <body>
     <header class="admin-header">
       <div>
-        <h1>SOPRA STERIA</h1>
+        <div class="brand">SOPRA STERIA</div>
 
-        <span> Cybersecurity Challenge · Admin Dashboard </span>
+        <div class="subtitle">Cybersecurity Challenge</div>
       </div>
 
-      <button id="refreshBtn" class="refresh-btn">Refresh Data</button>
+      <div class="admin-title">ADMIN DASHBOARD</div>
     </header>
 
-    <main class="admin-container">
-      <div class="dashboard-title">
+    <main class="dashboard">
+      <div class="dashboard-heading">
         <div>
-          <p>EVENT ANALYTICS</p>
+          <span> EVENT ANALYTICS </span>
 
-          <h2>Challenge Results</h2>
+          <h1>Challenge Results</h1>
         </div>
 
-        <button id="downloadBtn" class="download-btn">Download CSV</button>
+        <div class="actions">
+          <button id="refreshBtn" class="primary-btn">Refresh</button>
+
+          <button id="downloadBtn" class="secondary-btn">Download CSV</button>
+        </div>
       </div>
 
-      <!-- STATISTICS -->
+      <!-- STATS -->
 
       <section class="stats-grid">
         <div class="stat-card">
@@ -46,13 +50,13 @@
         <div class="stat-card">
           <span> AVERAGE SCORE </span>
 
-          <strong id="averageScore"> 0% </strong>
+          <strong id="averageScore"> 0/5 </strong>
         </div>
 
         <div class="stat-card">
           <span> HIGHEST SCORE </span>
 
-          <strong id="highestScore"> 0/12 </strong>
+          <strong id="highestScore"> 0/5 </strong>
         </div>
 
         <div class="stat-card">
@@ -64,44 +68,44 @@
 
       <!-- LEVELS -->
 
-      <section class="analytics-card">
-        <h3>Awareness Levels</h3>
+      <section class="level-section">
+        <h2>Awareness Levels</h2>
 
         <div class="level-grid">
-          <div>
-            <span> Cyber Rookie </span>
+          <div class="level-card">
+            <span> CYBER ROOKIE </span>
 
             <strong id="rookieCount"> 0 </strong>
           </div>
 
-          <div>
-            <span> Cyber Aware </span>
+          <div class="level-card">
+            <span> CYBER AWARE </span>
 
             <strong id="awareCount"> 0 </strong>
           </div>
 
-          <div>
-            <span> Cyber Defender </span>
+          <div class="level-card">
+            <span> CYBER DEFENDER </span>
 
             <strong id="defenderCount"> 0 </strong>
           </div>
 
-          <div>
-            <span> Cyber Guardian </span>
+          <div class="level-card">
+            <span> CYBER GUARDIAN </span>
 
             <strong id="guardianCount2"> 0 </strong>
           </div>
         </div>
       </section>
 
-      <!-- RESULTS -->
+      <!-- SEARCH -->
 
-      <section class="table-card">
-        <div class="table-header">
+      <section class="results-section">
+        <div class="results-header">
           <div>
-            <h3>Participant Results</h3>
+            <h2>Participant Results</h2>
 
-            <span id="recordCount"> 0 records </span>
+            <p>View scores and cybersecurity awareness levels.</p>
           </div>
 
           <input
@@ -138,14 +142,8 @@
             <tbody id="resultsBody"></tbody>
           </table>
         </div>
-
-        <div id="loading" class="loading">Loading results...</div>
-
-        <div id="adminError" class="admin-error"></div>
       </section>
     </main>
-
-    <footer>Sopra Steria · Cybersecurity Awareness Event</footer>
 
     <script src="admin.js"></script>
   </body>
