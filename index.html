@@ -11,290 +11,273 @@
 
   <body>
     <header class="topbar">
-      <div>
-        <div class="brand">SOPRA STERIA</div>
-        <div class="subtitle">Cybersecurity Awareness</div>
+      <div class="brand">
+        <div class="brand-name">SOPRA STERIA</div>
+        <div class="brand-subtitle">Cybersecurity Awareness</div>
       </div>
 
-      <div class="tagline">THINK. VERIFY. PROTECT.</div>
+      <div class="progress-area">
+        <span id="progressText">0%</span>
+        <div class="progress-track">
+          <div id="progressBar"></div>
+        </div>
+      </div>
     </header>
 
-    <div class="progress">
-      <div id="progressBar"></div>
-    </div>
-
     <main>
-      <!-- =========================
-         HOME
-    ========================== -->
+      <!-- ================= LANDING ================= -->
 
-      <section id="home" class="screen active">
-        <div class="card hero">
-          <div class="label">CYBERSECURITY AWARENESS EVENT</div>
+      <section id="landing" class="screen active">
+        <div class="hero-card">
+          <div class="step-label">CYBERSECURITY AWARENESS EVENT</div>
 
-          <h1>
-            CYBERSECURITY
-            <br />
-            CHALLENGE
-          </h1>
+          <h1>CYBERSECURITY<br />CHALLENGE</h1>
 
-          <h3>THINK. VERIFY. PROTECT.</h3>
+          <p class="tagline">THINK. VERIFY. PROTECT.</p>
 
-          <p>
-            Test your cybersecurity instincts and learn how to recognize common
-            cyber threats.
+          <p class="description">
+            Test your cybersecurity instincts through a short, interactive
+            awareness challenge designed to help you recognize everyday cyber
+            risks.
           </p>
 
-          <div class="stats">
-            <div>
-              <b>2</b>
-              <span>Policy Choices</span>
-            </div>
-
-            <div>
-              <b>5</b>
+          <div class="info-row">
+            <div class="info-box">
+              <strong>5</strong>
               <span>Questions</span>
             </div>
 
-            <div>
-              <b>1</b>
+            <div class="info-box">
+              <strong>1</strong>
               <span>Final Score</span>
+            </div>
+
+            <div class="info-box">
+              <strong>100%</strong>
+              <span>Awareness</span>
             </div>
           </div>
 
-          <button class="primary" onclick="startChallenge()">
-            Start Challenge →
-          </button>
+          <button id="startBtn" class="primary-btn">Start Challenge →</button>
 
-          <p class="note">
+          <p class="safe-note">
             Educational simulation · No real passwords, OTPs or corporate
             credentials are collected.
           </p>
         </div>
       </section>
 
-      <!-- =========================
-         NAME
-    ========================== -->
+      <!-- ================= NAME ================= -->
 
       <section id="nameScreen" class="screen">
         <div class="card">
-          <div class="label">STEP 01 · PARTICIPANT</div>
+          <div class="step-label">STEP 01 · PARTICIPANT</div>
 
-          <h2>Welcome to the Challenge</h2>
+          <h2>Welcome to the challenge</h2>
 
-          <p>Enter your name to begin.</p>
+          <p class="section-description">
+            Enter your name to begin the cybersecurity awareness challenge.
+          </p>
 
-          <label> Participant Name </label>
+          <label for="participantName"> Your Name </label>
 
           <input
-            id="nameInput"
             type="text"
-            maxlength="80"
+            id="participantName"
             placeholder="Enter your name"
+            maxlength="80"
+            autocomplete="off"
           />
 
-          <div id="nameError" class="error"></div>
+          <p id="nameError" class="error-message"></p>
 
-          <button class="primary" onclick="continueName()">Continue →</button>
+          <button id="nameContinueBtn" class="primary-btn">Continue →</button>
         </div>
       </section>
 
-      <!-- =========================
-         POLICY
-    ========================== -->
+      <!-- ================= SECURITY DECISION ================= -->
 
       <section id="policyScreen" class="screen">
         <div class="card">
-          <div class="label">STEP 02 · SECURITY DECISION</div>
+          <div class="step-label">STEP 02 · SECURITY DECISION</div>
 
           <h2>How would you respond?</h2>
 
-          <p>You receive a security policy prompt. What would you choose?</p>
+          <p class="section-description">
+            You receive a security policy prompt. What would you choose?
+          </p>
 
-          <div class="policy-container">
-            <button class="policy-button" onclick="chooseAccept()">
-              <div class="icon">✓</div>
+          <div class="decision-grid">
+            <button id="acceptBtn" class="decision-card">
+              <div class="decision-icon accept-icon">✓</div>
 
-              <h3>ACCEPT ALL</h3>
+              <div class="decision-title">ACCEPT ALL</div>
 
-              <p>Accept everything without reviewing the details.</p>
+              <div class="decision-description">
+                Accept everything without reviewing the details.
+              </div>
             </button>
 
-            <button class="policy-button" onclick="chooseReview()">
-              <div class="icon">!</div>
+            <button id="reviewBtn" class="decision-card">
+              <div class="decision-icon review-icon">!</div>
 
-              <h3>REVIEW</h3>
+              <div class="decision-title">REVIEW</div>
 
-              <p>Review the information before making a decision.</p>
+              <div class="decision-description">
+                Review the information before making a decision.
+              </div>
             </button>
           </div>
         </div>
       </section>
 
-      <!-- =========================
-         REVIEW REASON
-    ========================== -->
+      <!-- ================= REVIEW REASON ================= -->
 
       <section id="reasonScreen" class="screen">
         <div class="card">
-          <div class="label">STEP 03 · YOUR REASON</div>
+          <div class="step-label">STEP 03 · YOUR DECISION</div>
 
-          <div class="badge">REVIEW</div>
+          <span class="decision-badge"> REVIEW </span>
 
           <h2>Why did you choose Review?</h2>
 
-          <p>Tell us briefly why you selected Review.</p>
+          <p class="section-description">
+            Tell us briefly what made you choose this option.
+          </p>
 
           <textarea
             id="reasonInput"
             maxlength="250"
-            placeholder="Write your reason..."
-            oninput="updateCount()"
+            placeholder="For example: I wanted to check the policy details before accepting..."
           ></textarea>
 
-          <div class="count"><span id="charCount">0</span>/250</div>
+          <div class="character-count"><span id="charCount">0</span>/250</div>
 
-          <div id="reasonError" class="error"></div>
+          <p id="reasonError" class="error-message"></p>
 
-          <button class="primary" onclick="submitReason()">Continue →</button>
+          <button id="reasonContinueBtn" class="primary-btn">Continue →</button>
         </div>
       </section>
 
-      <!-- =========================
-         LESSON
-    ========================== -->
+      <!-- ================= AWARENESS ================= -->
 
-      <section id="lessonScreen" class="screen">
-        <div class="card lesson">
-          <div id="lessonIcon" class="lesson-icon">!</div>
+      <section id="awarenessScreen" class="screen">
+        <div class="card awareness-card">
+          <div class="step-label">CYBERSECURITY LESSON</div>
 
-          <div class="label">SECURITY AWARENESS LESSON</div>
+          <div id="awarenessIcon" class="awareness-icon">🔐</div>
 
-          <h2 id="lessonTitle">Security Lesson</h2>
+          <h2 id="awarenessTitle">Security Awareness</h2>
 
-          <p id="lessonText">Security awareness information.</p>
+          <div id="awarenessText" class="awareness-content"></div>
 
-          <div class="remember">
-            <b> Remember </b>
-
-            <span> Pause. Verify. Then act. </span>
+          <div class="lesson-box">
+            <strong>Remember:</strong>
+            <span> Pause. Check. Verify. Then decide. </span>
           </div>
 
-          <button class="primary" onclick="startQuiz()">
+          <button id="awarenessContinueBtn" class="primary-btn">
             Start 5 Questions →
           </button>
         </div>
       </section>
 
-      <!-- =========================
-         QUIZ
-    ========================== -->
+      <!-- ================= QUIZ ================= -->
 
       <section id="quizScreen" class="screen">
-        <div class="card quiz">
-          <div class="quiz-top">
-            <div>
-              <div class="label">CYBERSECURITY QUIZ</div>
+        <div class="card quiz-card">
+          <div class="quiz-header">
+            <div class="step-label">CYBERSECURITY QUIZ</div>
 
-              <h2 id="questionNumber">Question 1</h2>
-            </div>
-
-            <div id="questionCounter" class="counter">1 / 5</div>
-          </div>
-
-          <div class="question-box">
-            <p id="questionText">Question appears here.</p>
-          </div>
-
-          <div id="options"></div>
-
-          <div id="quizError" class="error"></div>
-
-          <!-- HIDDEN INITIALLY -->
-
-          <div id="feedback" class="feedback hidden">
-            <h3 id="feedbackTitle">Correct!</h3>
-
-            <div class="correct-answer">
-              <b> Correct Answer </b>
-
-              <p id="correctAnswer"></p>
-            </div>
-
-            <div class="explanation">
-              <b> Why? </b>
-
-              <p id="explanation"></p>
+            <div id="questionCounter" class="question-counter">
+              Question 1 of 5
             </div>
           </div>
 
-          <button id="quizButton" class="primary" onclick="quizButtonClick()">
-            Check Answer
-          </button>
+          <h2 id="questionText">Question</h2>
+
+          <div id="optionsContainer" class="options-container"></div>
+
+          <p id="quizError" class="error-message"></p>
+
+          <!-- Feedback appears only AFTER answer -->
+
+          <div id="answerFeedback" class="answer-feedback hidden">
+            <div id="feedbackStatus" class="feedback-status"></div>
+
+            <div class="feedback-answer">
+              <strong>Correct answer:</strong>
+              <span id="correctAnswerText"></span>
+            </div>
+
+            <div class="feedback-explanation">
+              <strong>Why?</strong>
+              <p id="explanationText"></p>
+            </div>
+          </div>
+
+          <button id="nextQuestionBtn" class="primary-btn">Check Answer</button>
         </div>
       </section>
 
-      <!-- =========================
-         RESULT
-    ========================== -->
+      <!-- ================= RESULT ================= -->
 
       <section id="resultScreen" class="screen">
-        <div class="card result">
-          <div class="label">FINAL RESULT</div>
+        <div class="card result-card">
+          <div class="step-label">CHALLENGE COMPLETE</div>
 
-          <h2>Challenge Complete</h2>
+          <h2>Great job, <span id="resultName"></span>!</h2>
 
-          <p>
-            Participant:
-            <strong id="resultName"></strong>
+          <p class="section-description">
+            Here is your cybersecurity awareness result.
           </p>
 
-          <div class="score">
-            <span id="score"> 0/5 </span>
+          <div class="score-circle">
+            <div id="scoreNumber">0/5</div>
 
-            <small> SCORE </small>
+            <span>Score</span>
           </div>
 
-          <div id="percentage" class="percentage">0%</div>
+          <div class="result-level" id="levelBadge">CYBER ROOKIE</div>
 
-          <div id="level" class="level">CYBER ROOKIE</div>
-
-          <div class="result-stats">
+          <div class="result-grid">
             <div>
-              <b id="correct"> 0 </b>
-
-              <span> Correct </span>
+              <span>Percentage</span>
+              <strong id="percentage">0%</strong>
             </div>
 
             <div>
-              <b id="wrong"> 0 </b>
+              <span>Correct</span>
+              <strong id="correctCount">0</strong>
+            </div>
 
-              <span> Wrong </span>
+            <div>
+              <span>Wrong</span>
+              <strong id="wrongCount">0</strong>
+            </div>
+
+            <div>
+              <span>Decision</span>
+              <strong id="resultDecision">Review</strong>
             </div>
           </div>
 
-          <div class="decision">
-            <b> Policy Decision </b>
+          <div class="reason-result">
+            <strong>Your decision:</strong>
 
-            <p id="resultPolicy"></p>
-
-            <p id="resultReason"></p>
+            <p id="resultReason">You chose Review.</p>
           </div>
 
           <div id="saveStatus" class="save-status">Saving result...</div>
 
-          <button class="secondary" onclick="restart()">
-            Take Challenge Again
-          </button>
+          <button id="restartBtn" class="secondary-btn">Take Again</button>
         </div>
       </section>
     </main>
 
     <footer>Sopra Steria · Cybersecurity Awareness Event</footer>
 
-    <!-- SUPABASE -->
-
+    <!-- Supabase -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
     <script src="script.js"></script>

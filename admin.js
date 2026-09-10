@@ -1,406 +1,459 @@
-/* =====================================================
-   SUPABASE
-===================================================== */
+document.addEventListener("DOMContentLoaded", function () {
+  /* =====================================================
+       SUPABASE
+    ===================================================== */
 
-const SUPABASE_URL = "https://ekjvwzsddkzqbgywahwr.supabase.co";
+  const SUPABASE_URL = "https://ekjvwzsddkzqbgywahwr.supabase.co";
 
-const SUPABASE_KEY = "sb_publishable_e-dUITzFjMo2FZFYizCCHQ_L9rTt40z";
+  const SUPABASE_KEY = "sb_publishable_e-dUITzFjMo2FZFYizCCHQ_L9rTt40z";
 
-const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+  const supabaseClient = window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY,
+  );
 
-let allResults = [];
+  /* =====================================================
+       QUESTIONS / ANSWER KEY
+    ===================================================== */
 
-/* =====================================================
-   ANSWER KEY
-===================================================== */
+  const questions = [
+    {
+      topic: "Phishing",
 
-const answerKey = [
-  {
-    topic: "PHISHING",
+      question:
+        "You receive an email saying your account will be blocked in 10 minutes unless you click a link.",
 
-    question:
-      "You receive an unexpected email saying your account will be locked in 10 minutes. It asks you to click a link immediately. What should you do?",
+      answer: "Verify the message through an official channel.",
 
-    answer:
-      "Ignore the urgency and verify the message through an official channel",
+      explanation:
+        "Urgency is commonly used in phishing. Verify the sender and request before clicking.",
+    },
 
-    explanation:
-      "Phishing messages often create urgency so people act without thinking. Verify unexpected requests through a trusted official channel before clicking.",
-  },
+    {
+      topic: "Email Security",
 
-  {
-    topic: "PASSWORD SECURITY",
+      question:
+        "An email appears to come from IT and asks you to open an unexpected attachment.",
 
-    question: "Which is the safest password practice?",
+      answer: "Verify the request before opening the attachment.",
 
-    answer: "Use a strong unique password for each important account",
+      explanation:
+        "Unexpected attachments may contain malicious content. Verify the sender and purpose first.",
+    },
 
-    explanation:
-      "Strong and unique passwords reduce the impact if one account is compromised.",
-  },
+    {
+      topic: "MFA Security",
 
-  {
-    topic: "MFA SECURITY",
+      question: "Someone claiming to be IT support asks for your OTP.",
 
-    question:
-      "Someone calls pretending to be IT support and asks you to read out the OTP sent to your phone. What should you do?",
+      answer: "Refuse and report the suspicious request.",
 
-    answer: "Do not share the OTP and verify the caller independently",
+      explanation:
+        "Authentication codes are private security factors and should never be shared.",
+    },
 
-    explanation:
-      "An OTP is a security verification code. Never share it with another person, even if they claim to be from IT support.",
-  },
+    {
+      topic: "URL Safety",
 
-  {
-    topic: "URL SAFETY",
+      question:
+        "Before entering your password on a website, what should you check?",
 
-    question:
-      "Before entering information on a website, what should you check first?",
+      answer: "The URL and domain.",
 
-    answer:
-      "The website address and whether it is the expected legitimate domain",
+      explanation:
+        "Fake websites can look legitimate. Checking the domain helps identify suspicious websites.",
+    },
 
-    explanation:
-      "Fake websites can look almost identical to legitimate websites. Checking the address and domain helps identify suspicious destinations.",
-  },
+    {
+      topic: "Social Engineering",
 
-  {
-    topic: "SOCIAL ENGINEERING",
+      question:
+        "A stranger asks for confidential company information and says it is an emergency.",
 
-    question:
-      "A person you do not know asks you to bypass a security procedure because they claim it is an emergency. What is the safest response?",
+      answer: "Verify their identity and authorization first.",
 
-    answer: "Follow the security procedure and verify the request",
+      explanation:
+        "Attackers may use urgency and authority to manipulate people into revealing information.",
+    },
+  ];
 
-    explanation:
-      "Social engineering uses pressure, urgency and authority to influence people. Security procedures should not be bypassed simply because someone claims there is an emergency.",
-  },
-];
+  /* =====================================================
+       ELEMENTS
+    ===================================================== */
 
-/* =====================================================
-   LOAD RESULTS
-===================================================== */
+  const totalParticipants = document.getElementById("totalParticipants");
 
-async function loadResults() {
-  const body = document.getElementById("results");
+  const averageScore = document.getElementById("averageScore");
 
-  body.innerHTML = `
-        <tr>
-            <td colspan="10">
-                Loading...
-            </td>
-        </tr>
-    `;
+  const highestScore = document.getElementById("highestScore");
 
-  try {
-    const response = await supabaseClient
+  const guardianCount = document.getElementById("guardianCount");
+
+  const rookieCount = document.getElementById("rookieCount");
+
+  const awareCount = document.getElementById("awareCount");
+
+  const defenderCount = document.getElementById("defenderCount");
+
+  const guardianLevelCount = document.getElementById("guardianLevelCount");
+
+  const resultsBody = document.getElementById("resultsBody");
+
+  const recordCount = document.getElementById("recordCount");
+
+  const searchInput = document.getElementById("searchInput");
+
+  const refreshBtn = document.getElementById("refreshBtn");
+
+  const downloadBtn = document.getElementById("downloadBtn");
+
+  const answerKey = document.getElementById("answerKey");
+
+  let allResults = [];
+
+  /* =====================================================
+       LOAD RESULTS
+    ===================================================== */
+
+  async function loadResults() {
+    resultsBody.innerHTML = `
+            <tr>
+                <td colspan="9">
+                    Loading results...
+                </td>
+            </tr>
+        `;
+
+    const { data, error } = await supabaseClient
       .from("challenge_results")
       .select("*")
       .order("created_at", {
         ascending: false,
       });
 
-    if (response.error) {
-      throw response.error;
+    if (error) {
+      console.error(error);
+
+      resultsBody.innerHTML = `
+                <tr>
+                    <td colspan="9">
+                        Could not load results.
+                    </td>
+                </tr>
+            `;
+
+      return;
     }
 
-    allResults = response.data || [];
+    allResults = data || [];
 
-    updateStats();
+    updateDashboard(allResults);
 
-    renderResults(allResults);
-  } catch (error) {
-    console.error(error);
-
-    body.innerHTML = `
-            <tr>
-                <td colspan="10">
-                    Error loading results.
-                </td>
-            </tr>
-        `;
+    renderTable(allResults);
   }
-}
 
-/* =====================================================
-   STATS
-===================================================== */
+  /* =====================================================
+       DASHBOARD
+    ===================================================== */
 
-function updateStats() {
-  const total = allResults.length;
+  function updateDashboard(results) {
+    totalParticipants.textContent = results.length;
 
-  document.getElementById("total").textContent = total;
+    if (results.length === 0) {
+      averageScore.textContent = "0%";
 
-  if (total === 0) {
-    document.getElementById("average").textContent = "0%";
+      highestScore.textContent = "0/5";
 
-    document.getElementById("highest").textContent = "0/5";
-  } else {
-    const avg =
-      allResults.reduce(function (sum, row) {
-        return sum + Number(row.percentage || 0);
-      }, 0) / total;
+      guardianCount.textContent = "0";
 
-    const highest = Math.max(
-      ...allResults.map(function (row) {
-        return Number(row.score || 0);
+      rookieCount.textContent = "0";
+
+      awareCount.textContent = "0";
+
+      defenderCount.textContent = "0";
+
+      guardianLevelCount.textContent = "0";
+
+      return;
+    }
+
+    const percentages = results.map(function (r) {
+      return Number(r.percentage || 0);
+    });
+
+    const average = percentages.reduce((a, b) => a + b, 0) / percentages.length;
+
+    averageScore.textContent = Math.round(average) + "%";
+
+    const highest = Math.max.apply(
+      null,
+      results.map(function (r) {
+        return Number(r.score || 0);
       }),
     );
 
-    document.getElementById("average").textContent = Math.round(avg) + "%";
+    highestScore.textContent = highest + "/5";
 
-    document.getElementById("highest").textContent = highest + "/5";
+    const guardians = results.filter(function (r) {
+      return r.awareness_level === "CYBER GUARDIAN";
+    }).length;
+
+    guardianCount.textContent = guardians;
+
+    rookieCount.textContent = results.filter(function (r) {
+      return r.awareness_level === "CYBER ROOKIE";
+    }).length;
+
+    awareCount.textContent = results.filter(function (r) {
+      return r.awareness_level === "CYBER AWARE";
+    }).length;
+
+    defenderCount.textContent = results.filter(function (r) {
+      return r.awareness_level === "CYBER DEFENDER";
+    }).length;
+
+    guardianLevelCount.textContent = results.filter(function (r) {
+      return r.awareness_level === "CYBER GUARDIAN";
+    }).length;
   }
 
-  const guardians = allResults.filter(function (row) {
-    return row.awareness_level === "CYBER GUARDIAN";
-  }).length;
+  /* =====================================================
+       TABLE
+    ===================================================== */
 
-  document.getElementById("guardians").textContent = guardians;
-}
+  function renderTable(results) {
+    recordCount.textContent =
+      results.length + " record" + (results.length === 1 ? "" : "s");
 
-/* =====================================================
-   RENDER
-===================================================== */
+    if (results.length === 0) {
+      resultsBody.innerHTML = `
+                <tr>
+                    <td colspan="9">
+                        No results found.
+                    </td>
+                </tr>
+            `;
 
-function renderResults(results) {
-  const body = document.getElementById("results");
+      return;
+    }
 
-  if (results.length === 0) {
-    body.innerHTML = `
-            <tr>
-                <td colspan="10">
-                    No participant results yet.
-                </td>
-            </tr>
-        `;
+    resultsBody.innerHTML = "";
 
-    return;
-  }
+    results.forEach(function (result, index) {
+      const row = document.createElement("tr");
 
-  body.innerHTML = results
-    .map(function (row, index) {
-      const date = row.created_at
-        ? new Date(row.created_at).toLocaleString()
+      const date = result.created_at
+        ? new Date(result.created_at).toLocaleString()
         : "-";
 
-      return `
+      row.innerHTML = `
 
-                    <tr>
+                <td>${index + 1}</td>
 
-                        <td>
-                            ${index + 1}
-                        </td>
+                <td>
+                    <strong>
+                        ${escapeHtml(result.participant_name || "")}
+                    </strong>
+                </td>
 
-                        <td>
-                            <strong>
-                                ${safe(row.participant_name)}
-                            </strong>
-                        </td>
+                <td>
+                    ${escapeHtml(result.policy_choice || "")}
+                </td>
 
-                        <td>
-                            ${safe(row.policy_choice)}
-                        </td>
+                <td>
+                    ${result.score || 0}/${result.total_questions || 5}
+                </td>
 
-                        <td class="reason">
-                            ${safe(row.policy_reason)}
-                        </td>
+                <td>
+                    ${result.percentage || 0}%
+                </td>
 
-                        <td class="score">
-                            ${row.score || 0}/5
-                        </td>
+                <td>
+                    <span class="level-badge">
+                        ${escapeHtml(result.awareness_level || "")}
+                    </span>
+                </td>
 
-                        <td>
-                            ${row.percentage || 0}%
-                        </td>
+                <td>
+                    ${result.correct_answers || 0}
+                </td>
 
-                        <td class="level">
-                            ${safe(row.awareness_level)}
-                        </td>
+                <td>
+                    ${result.wrong_answers || 0}
+                </td>
 
-                        <td>
-                            ${row.correct_answers || 0}
-                        </td>
+                <td>
+                    ${escapeHtml(date)}
+                </td>
+            `;
 
-                        <td>
-                            ${row.wrong_answers || 0}
-                        </td>
+      resultsBody.appendChild(row);
+    });
+  }
 
-                        <td>
-                            ${date}
-                        </td>
+  /* =====================================================
+       SEARCH
+    ===================================================== */
 
-                    </tr>
+  searchInput.addEventListener("input", function () {
+    const term = searchInput.value.trim().toLowerCase();
 
-                `;
-    })
-    .join("");
-}
+    const filtered = allResults.filter(function (result) {
+      return (result.participant_name || "").toLowerCase().includes(term);
+    });
 
-/* =====================================================
-   SEARCH
-===================================================== */
+    updateDashboard(filtered);
 
-function searchResults() {
-  const value = document.getElementById("search").value.toLowerCase();
-
-  const filtered = allResults.filter(function (row) {
-    return String(row.participant_name || "")
-      .toLowerCase()
-      .includes(value);
+    renderTable(filtered);
   });
 
-  renderResults(filtered);
-}
+  /* =====================================================
+       CSV
+    ===================================================== */
 
-/* =====================================================
-   ANSWER KEY DISPLAY
-===================================================== */
+  downloadBtn.addEventListener("click", function () {
+    if (allResults.length === 0) {
+      alert("There are no results to download.");
 
-function displayAnswerKey() {
-  const container = document.getElementById("answerKey");
+      return;
+    }
 
-  container.innerHTML = answerKey
-    .map(function (item, index) {
-      return `
+    const headers = [
+      "Participant Name",
+      "Policy Choice",
+      "Policy Reason",
+      "Score",
+      "Total Questions",
+      "Percentage",
+      "Awareness Level",
+      "Correct Answers",
+      "Wrong Answers",
+      "Created At",
+    ];
 
-                    <div class="answer">
+    const rows = allResults.map(function (r) {
+      return [
+        r.participant_name,
 
-                        <div class="answer-number">
+        r.policy_choice,
 
-                            QUESTION ${index + 1}
-                            · ${item.topic}
+        r.policy_reason,
 
-                        </div>
+        r.score,
 
+        r.total_questions,
 
-                        <div class="answer-question">
+        r.percentage,
 
-                            ${safe(item.question)}
+        r.awareness_level,
 
-                        </div>
+        r.correct_answers,
 
+        r.wrong_answers,
 
-                        <div class="correct-answer">
+        r.created_at,
+      ];
+    });
 
-                            <b>
-                                CORRECT ANSWER
-                            </b>
+    let csv = headers.join(",") + "\n";
 
-                            ${safe(item.answer)}
+    rows.forEach(function (row) {
+      csv += row.map(csvEscape).join(",") + "\n";
+    });
 
-                        </div>
+    const blob = new Blob([csv], {
+      type: "text/csv",
+    });
 
+    const url = URL.createObjectURL(blob);
 
-                        <div class="explanation">
+    const link = document.createElement("a");
 
-                            <b>
-                                Explanation:
-                            </b>
+    link.href = url;
 
-                            ${safe(item.explanation)}
+    link.download = "cybersecurity-results.csv";
 
-                        </div>
+    link.click();
+
+    URL.revokeObjectURL(url);
+  });
+
+  /* =====================================================
+       ANSWER KEY
+    ===================================================== */
+
+  function renderAnswerKey() {
+    answerKey.innerHTML = "";
+
+    questions.forEach(function (q, index) {
+      const div = document.createElement("div");
+
+      div.className = "answer-item";
+
+      div.innerHTML = `
+
+                    <div class="answer-question">
+
+                        Q${index + 1}.
+                        ${escapeHtml(q.question)}
 
                     </div>
 
+                    <div class="answer-correct">
+
+                        Correct Answer:
+                        ${escapeHtml(q.answer)}
+
+                    </div>
+
+                    <div class="answer-explanation">
+
+                        Explanation:
+                        ${escapeHtml(q.explanation)}
+
+                    </div>
                 `;
-    })
-    .join("");
-}
 
-/* =====================================================
-   CSV
-===================================================== */
-
-function downloadCSV() {
-  if (allResults.length === 0) {
-    alert("No results available.");
-
-    return;
+      answerKey.appendChild(div);
+    });
   }
 
-  const headers = [
-    "Name",
-    "Policy",
-    "Reason",
-    "Score",
-    "Total",
-    "Percentage",
-    "Level",
-    "Correct",
-    "Wrong",
-    "Date",
-  ];
+  /* =====================================================
+       REFRESH
+    ===================================================== */
 
-  const rows = allResults.map(function (row) {
-    return [
-      row.participant_name,
-
-      row.policy_choice,
-
-      row.policy_reason,
-
-      row.score,
-
-      row.total_questions,
-
-      row.percentage,
-
-      row.awareness_level,
-
-      row.correct_answers,
-
-      row.wrong_answers,
-
-      row.created_at,
-    ];
+  refreshBtn.addEventListener("click", function () {
+    loadResults();
   });
 
-  const csv = [headers, ...rows]
-    .map(function (row) {
-      return row
-        .map(function (value) {
-          return '"' + String(value ?? "").replace(/"/g, '""') + '"';
-        })
-        .join(",");
-    })
-    .join("\n");
+  /* =====================================================
+       SECURITY HELPERS
+    ===================================================== */
 
-  const blob = new Blob([csv], {
-    type: "text/csv;charset=utf-8",
-  });
+  function escapeHtml(value) {
+    return String(value)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#039;");
+  }
 
-  const url = URL.createObjectURL(blob);
+  function csvEscape(value) {
+    if (value === null || value === undefined) {
+      return "";
+    }
 
-  const link = document.createElement("a");
+    const stringValue = String(value).replace(/"/g, '""');
 
-  link.href = url;
+    return `"${stringValue}"`;
+  }
 
-  link.download = "sopra-steria-results.csv";
+  /* =====================================================
+       INITIAL LOAD
+    ===================================================== */
 
-  link.click();
+  renderAnswerKey();
 
-  URL.revokeObjectURL(url);
-}
-
-/* =====================================================
-   SECURITY
-===================================================== */
-
-function safe(value) {
-  return String(value ?? "")
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&#039;");
-}
-
-/* =====================================================
-   START ADMIN
-===================================================== */
-
-displayAnswerKey();
-
-loadResults();
+  loadResults();
+});

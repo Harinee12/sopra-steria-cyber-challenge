@@ -5,68 +5,105 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <title>Sopra Steria Admin</title>
+    <title>Sopra Steria - Admin Dashboard</title>
 
     <link rel="stylesheet" href="admin.css" />
   </head>
 
   <body>
-    <header>
+    <header class="admin-header">
       <div>
-        <strong> SOPRA STERIA </strong>
+        <div class="admin-brand">SOPRA STERIA</div>
 
-        <span> Cybersecurity Challenge · Admin </span>
+        <div class="admin-subtitle">
+          Cybersecurity Challenge · Admin Dashboard
+        </div>
       </div>
 
-      <div>
-        <button onclick="loadResults()">Refresh</button>
-
-        <button onclick="downloadCSV()">Download CSV</button>
-      </div>
+      <button id="refreshBtn">Refresh Data</button>
     </header>
 
     <main>
-      <div class="title">
-        <div class="label">EVENT ADMINISTRATION</div>
+      <section class="page-title">
+        <div>
+          <div class="eyebrow">EVENT ANALYTICS</div>
 
-        <h1>Challenge Results</h1>
-      </div>
+          <h1>Challenge Results</h1>
+        </div>
+
+        <button id="downloadBtn">Download CSV</button>
+      </section>
 
       <!-- STATS -->
 
-      <div class="stats">
-        <div>
+      <section class="stats-grid">
+        <div class="stat-card">
           <span>Total Participants</span>
-          <b id="total">0</b>
+
+          <strong id="totalParticipants"> 0 </strong>
         </div>
 
-        <div>
+        <div class="stat-card">
           <span>Average Score</span>
-          <b id="average">0%</b>
+
+          <strong id="averageScore"> 0% </strong>
         </div>
 
-        <div>
+        <div class="stat-card">
           <span>Highest Score</span>
-          <b id="highest">0/5</b>
+
+          <strong id="highestScore"> 0/5 </strong>
         </div>
 
-        <div>
+        <div class="stat-card">
           <span>Cyber Guardians</span>
-          <b id="guardians">0</b>
+
+          <strong id="guardianCount"> 0 </strong>
         </div>
-      </div>
+      </section>
 
-      <!-- SEARCH -->
+      <!-- LEVELS -->
 
-      <div class="panel">
+      <section class="panel">
+        <h2>Awareness Levels</h2>
+
+        <div class="levels-grid">
+          <div>
+            <span>Cyber Rookie</span>
+            <strong id="rookieCount">0</strong>
+          </div>
+
+          <div>
+            <span>Cyber Aware</span>
+            <strong id="awareCount">0</strong>
+          </div>
+
+          <div>
+            <span>Cyber Defender</span>
+            <strong id="defenderCount">0</strong>
+          </div>
+
+          <div>
+            <span>Cyber Guardian</span>
+            <strong id="guardianLevelCount">0</strong>
+          </div>
+        </div>
+      </section>
+
+      <!-- PARTICIPANTS -->
+
+      <section class="panel">
         <div class="panel-header">
-          <h2>Participant Results</h2>
+          <div>
+            <h2>Participant Results</h2>
+
+            <span id="recordCount"> 0 records </span>
+          </div>
 
           <input
-            id="search"
+            id="searchInput"
             type="text"
-            placeholder="Search name..."
-            oninput="searchResults()"
+            placeholder="Search participant..."
           />
         </div>
 
@@ -75,46 +112,34 @@
             <thead>
               <tr>
                 <th>#</th>
-
-                <th>Name</th>
-
+                <th>Participant</th>
                 <th>Policy</th>
-
-                <th>Reason</th>
-
                 <th>Score</th>
-
                 <th>Percentage</th>
-
                 <th>Level</th>
-
                 <th>Correct</th>
-
                 <th>Wrong</th>
-
                 <th>Date</th>
               </tr>
             </thead>
 
-            <tbody id="results"></tbody>
+            <tbody id="resultsBody"></tbody>
           </table>
         </div>
-      </div>
+      </section>
 
       <!-- ANSWER KEY -->
 
-      <div class="panel">
-        <div class="label">ADMIN ANSWER KEY</div>
+      <section class="panel">
+        <h2>Quiz Answer Key & Explanations</h2>
 
-        <h2>Correct Answers & Explanations</h2>
-
-        <p class="intro">
-          Participants only see the correct answer after they submit each
-          question.
+        <p class="answer-key-intro">
+          Admin reference: these are the correct answers used by the
+          cybersecurity challenge.
         </p>
 
         <div id="answerKey"></div>
-      </div>
+      </section>
     </main>
 
     <footer>Sopra Steria · Cybersecurity Awareness Event</footer>
