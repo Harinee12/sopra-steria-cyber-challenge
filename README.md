@@ -1,1 +1,0 @@
-# sopra-steria-cyber-challenge
