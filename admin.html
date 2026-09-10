@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <!doctype html>
 <html lang="en">
   <head>
@@ -148,3 +149,157 @@
     <script src="admin.js"></script>
   </body>
 </html>
+=======
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Cybersecurity Challenge | Admin</title>
+
+    <link rel="stylesheet" href="admin.css" />
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  </head>
+
+  <body>
+    <header class="admin-header">
+      <div>
+        <h1>SOPRA STERIA</h1>
+
+        <span> Cybersecurity Challenge · Admin Dashboard </span>
+      </div>
+
+      <button id="refreshBtn" class="refresh-btn">Refresh Data</button>
+    </header>
+
+    <main class="admin-container">
+      <div class="dashboard-title">
+        <div>
+          <p>EVENT ANALYTICS</p>
+
+          <h2>Challenge Results</h2>
+        </div>
+
+        <button id="downloadBtn" class="download-btn">Download CSV</button>
+      </div>
+
+      <!-- STATISTICS -->
+
+      <section class="stats-grid">
+        <div class="stat-card">
+          <span> TOTAL PARTICIPANTS </span>
+
+          <strong id="totalParticipants"> 0 </strong>
+        </div>
+
+        <div class="stat-card">
+          <span> AVERAGE SCORE </span>
+
+          <strong id="averageScore"> 0% </strong>
+        </div>
+
+        <div class="stat-card">
+          <span> HIGHEST SCORE </span>
+
+          <strong id="highestScore"> 0/12 </strong>
+        </div>
+
+        <div class="stat-card">
+          <span> CYBER GUARDIANS </span>
+
+          <strong id="guardianCount"> 0 </strong>
+        </div>
+      </section>
+
+      <!-- LEVELS -->
+
+      <section class="analytics-card">
+        <h3>Awareness Levels</h3>
+
+        <div class="level-grid">
+          <div>
+            <span> Cyber Rookie </span>
+
+            <strong id="rookieCount"> 0 </strong>
+          </div>
+
+          <div>
+            <span> Cyber Aware </span>
+
+            <strong id="awareCount"> 0 </strong>
+          </div>
+
+          <div>
+            <span> Cyber Defender </span>
+
+            <strong id="defenderCount"> 0 </strong>
+          </div>
+
+          <div>
+            <span> Cyber Guardian </span>
+
+            <strong id="guardianCount2"> 0 </strong>
+          </div>
+        </div>
+      </section>
+
+      <!-- RESULTS -->
+
+      <section class="table-card">
+        <div class="table-header">
+          <div>
+            <h3>Participant Results</h3>
+
+            <span id="recordCount"> 0 records </span>
+          </div>
+
+          <input
+            id="searchInput"
+            type="text"
+            placeholder="Search participant..."
+          />
+        </div>
+
+        <div class="table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th>#</th>
+
+                <th>Participant</th>
+
+                <th>Policy</th>
+
+                <th>Score</th>
+
+                <th>Percentage</th>
+
+                <th>Level</th>
+
+                <th>Correct</th>
+
+                <th>Wrong</th>
+
+                <th>Date</th>
+              </tr>
+            </thead>
+
+            <tbody id="resultsBody"></tbody>
+          </table>
+        </div>
+
+        <div id="loading" class="loading">Loading results...</div>
+
+        <div id="adminError" class="admin-error"></div>
+      </section>
+    </main>
+
+    <footer>Sopra Steria · Cybersecurity Awareness Event</footer>
+
+    <script src="admin.js"></script>
+  </body>
+</html>
+>>>>>>> 2f1e3120dd35bec5725a8bf9ccf4ecc9d7f213dd
